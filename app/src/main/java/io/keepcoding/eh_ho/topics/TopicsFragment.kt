@@ -80,7 +80,8 @@ class TopicsFragment : Fragment() {
                         topicsInteractionListener?.topicsLoading(false)
                     },
                     {
-                       // TODO: Manejo de errores
+                        topicsInteractionListener?.topicsLoading(false)
+                        topicsInteractionListener?.somethingWentWrong()
                     }
                 )
         }
@@ -104,6 +105,7 @@ class TopicsFragment : Fragment() {
         fun onLogout()
         fun onShowPosts(topic: Topic)
         fun topicsLoading(enabled: Boolean)
+        fun somethingWentWrong()
     }
 
 }

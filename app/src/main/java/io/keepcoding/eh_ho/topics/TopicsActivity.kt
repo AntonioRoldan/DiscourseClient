@@ -9,12 +9,20 @@ import io.keepcoding.eh_ho.data.Topic
 import io.keepcoding.eh_ho.data.UserRepo
 import io.keepcoding.eh_ho.login.LoginActivity
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_login.fragmentContainer
+import kotlinx.android.synthetic.main.activity_login.viewLoading
+import kotlinx.android.synthetic.main.activity_topics.*
 
 const val TRANSACTION_CREATE_TOPIC = "create_topic"
 
 class TopicsActivity : AppCompatActivity(),
     TopicsFragment.TopicsInteractionListener,
-    CreateTopicFragment.CreateTopicInteractionListener{
+    CreateTopicFragment.CreateTopicInteractionListener,
+    ErrorRetryFragment.ErrorRetryInteractionListener
+{
+
+    val errorRetryFragment : ErrorRetryFragment = ErrorRetryFragment()
+    val topicsFragment : TopicsFragment = TopicsFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,7 +30,7 @@ class TopicsActivity : AppCompatActivity(),
 
         if (isFirsTimeCreated(savedInstanceState))
             supportFragmentManager.beginTransaction()
-                .add(R.id.fragmentContainer, TopicsFragment())
+                .add(R.id.fragmentContainer, topicsFragment)
                 .commit()
     }
 
@@ -30,6 +38,18 @@ class TopicsActivity : AppCompatActivity(),
         val intent = Intent(this, PostsActivity::class.java)
         intent.putExtra(EXTRA_TOPIC_ID, topic.id)
         startActivity(intent)
+    }
+
+    override fun somethingWentWrong() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainer, errorRetryFragment)
+            .commit()
+    }
+
+    override fun onRetry() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainer, topicsFragment)
+            .commit()
     }
 
     override fun topicsLoading(enabled: Boolean) {
