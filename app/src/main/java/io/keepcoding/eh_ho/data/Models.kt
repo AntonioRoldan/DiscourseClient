@@ -109,10 +109,9 @@ data class Post(
             val posts = mutableListOf<Post>()
 
             for (i in 0 until objectList.length()) {
-                val parsedTopic = Post.parsePost(objectList.getJSONObject(i))
+                val parsedTopic = parsePost(objectList.getJSONObject(i))
                 posts.add(parsedTopic)
             }
-
             return posts
         }
         fun parsePost(jsonObject: JSONObject): Post {
