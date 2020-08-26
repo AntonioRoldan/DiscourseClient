@@ -1,10 +1,12 @@
-package io.keepcoding.eh_ho
+package io.keepcoding.eh_ho.posts
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import io.keepcoding.eh_ho.ErrorRetryFragment
+import io.keepcoding.eh_ho.R
 import io.keepcoding.eh_ho.data.Topic
 import io.keepcoding.eh_ho.data.TopicsRepo
-import kotlinx.android.synthetic.main.activity_posts.*
+import io.keepcoding.eh_ho.isFirsTimeCreated
 
 const val EXTRA_TOPIC_ID = "TOPIC_ID"
 
@@ -13,12 +15,18 @@ class PostsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_posts)
 
+        val postsFragment : PostsFragment = PostsFragment()
+        val errorRetryFragment : ErrorRetryFragment = ErrorRetryFragment()
+
         val topicId: String = intent.getStringExtra(EXTRA_TOPIC_ID) ?: ""
         val topic: Topic? = TopicsRepo.getTopic(topicId)
 
-        topic?.let {
-            labelTitle.text = it.title
-        }
-
+        if (isFirsTimeCreated(savedInstanceState))
+            supportFragmentManager.beginTransaction()
+                .add(R.id.fragmentContainer, postsFragment)
+                .commit()
     }
+
+
+
 }

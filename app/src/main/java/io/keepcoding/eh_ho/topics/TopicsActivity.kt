@@ -8,10 +8,10 @@ import io.keepcoding.eh_ho.*
 import io.keepcoding.eh_ho.data.Topic
 import io.keepcoding.eh_ho.data.UserRepo
 import io.keepcoding.eh_ho.login.LoginActivity
-import kotlinx.android.synthetic.main.activity_login.*
+import io.keepcoding.eh_ho.posts.EXTRA_TOPIC_ID
+import io.keepcoding.eh_ho.posts.PostsActivity
 import kotlinx.android.synthetic.main.activity_login.fragmentContainer
 import kotlinx.android.synthetic.main.activity_login.viewLoading
-import kotlinx.android.synthetic.main.activity_topics.*
 
 const val TRANSACTION_CREATE_TOPIC = "create_topic"
 
