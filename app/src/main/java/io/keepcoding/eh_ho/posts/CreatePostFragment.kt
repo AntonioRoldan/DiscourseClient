@@ -9,7 +9,10 @@ import io.keepcoding.eh_ho.LoadingDialogFragment
 import io.keepcoding.eh_ho.R
 import io.keepcoding.eh_ho.data.*
 import io.keepcoding.eh_ho.inflate
+import kotlinx.android.synthetic.main.fragment_create_post.*
 import kotlinx.android.synthetic.main.fragment_create_topic.*
+import kotlinx.android.synthetic.main.fragment_create_topic.container
+import kotlinx.android.synthetic.main.fragment_create_topic.inputContent
 import java.lang.IllegalArgumentException
 
 const val TAG_LOADING_DIALOG = "loading_dialog"
@@ -17,6 +20,8 @@ const val TAG_LOADING_DIALOG = "loading_dialog"
 const val TOPIC_ID = "topic_id"
 
 const val ARG_TOPIC_ID = "topic_id"
+
+const val ARG_TOPIC_TITLE = "topic_title"
 
 class CreatePostFragment : Fragment() {
 
@@ -28,10 +33,12 @@ class CreatePostFragment : Fragment() {
 
     var topicId: String? = null
 
+    var topicTitle: String? = null
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
-        topicId = this.arguments?.getString(TOPIC_ID)
+        topicId = this.arguments?.getString(ARG_TOPIC_ID)
 
         if (context is CreatePostInteractionListener)
             this.interactionListener = context
@@ -52,6 +59,14 @@ class CreatePostFragment : Fragment() {
         return container?.inflate(R.layout.fragment_create_post)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        topicTitle = this.arguments?.getString(ARG_TOPIC_TITLE)
+        topicTitle?.let {
+            labelTopic.text = topicTitle
+        }
+    }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_create_post, menu)
         super.onCreateOptionsMenu(menu, inflater)
@@ -59,10 +74,14 @@ class CreatePostFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_create_post -> createPost()
+            R.id.action_send -> createPost()
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onResume() {
+        super.onResume()
     }
 
     private fun createPost() {
@@ -123,11 +142,11 @@ class CreatePostFragment : Fragment() {
     private fun isFormValid() = inputContent.text.isNotEmpty()
 
     companion object {
-        fun newInstance(topicId: String): CreatePostFragment {
+        fun newInstance(topicId: String, topicTitle: String): CreatePostFragment? {
             val fragment = CreatePostFragment()
             val args = Bundle()
             args.putString(ARG_TOPIC_ID, topicId)
-
+            args.putString(ARG_TOPIC_TITLE, topicTitle)
             fragment.arguments = args
 
             return fragment
