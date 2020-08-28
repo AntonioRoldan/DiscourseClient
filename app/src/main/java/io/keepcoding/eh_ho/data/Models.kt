@@ -1,17 +1,23 @@
 package io.keepcoding.eh_ho.data
 
+import android.os.Parcelable
 import android.text.Html
+import android.util.Log
+import kotlinx.android.parcel.Parcelize
 import org.json.JSONObject
+import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.log
 
+@Parcelize
 data class Topic(
     val id: String = UUID.randomUUID().toString(),
     val title: String = "",
     val date: Date = Date(),
     val posts: Int = 0,
     val views: Int = 0
-) {
+) : Parcelable {
 
     companion object {
         fun parseTopicsList(response: JSONObject): List<Topic> {
@@ -109,8 +115,8 @@ data class Post(
             val posts = mutableListOf<Post>()
 
             for (i in 0 until objectList.length()) {
-                val parsedTopic = parsePost(objectList.getJSONObject(i))
-                posts.add(parsedTopic)
+                val parsedPost = parsePost(objectList.getJSONObject(i))
+                posts.add(parsedPost)
             }
             return posts
         }
@@ -118,7 +124,7 @@ data class Post(
             val date = jsonObject.getString("created_at")
                 .replace("Z", "+0000")
 
-            val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault())
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
             val dateFormatted = dateFormat.parse(date) ?: Date()
             return Post(
                 id = jsonObject.getString("id"),

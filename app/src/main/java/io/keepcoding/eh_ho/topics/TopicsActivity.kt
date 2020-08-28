@@ -8,7 +8,7 @@ import io.keepcoding.eh_ho.*
 import io.keepcoding.eh_ho.data.Topic
 import io.keepcoding.eh_ho.data.UserRepo
 import io.keepcoding.eh_ho.login.LoginActivity
-import io.keepcoding.eh_ho.posts.EXTRA_TOPIC_ID
+import io.keepcoding.eh_ho.posts.EXTRA_TOPIC
 import io.keepcoding.eh_ho.posts.PostsActivity
 import kotlinx.android.synthetic.main.activity_login.fragmentContainer
 import kotlinx.android.synthetic.main.activity_login.viewLoading
@@ -35,8 +35,11 @@ class TopicsActivity : AppCompatActivity(),
     }
 
     private fun goToPosts(topic: Topic) {
+        val topics: MutableList<Topic> = mutableListOf<Topic>()
+        var bundle = Bundle()
+        bundle.putParcelable(EXTRA_TOPIC, topic)
         val intent = Intent(this, PostsActivity::class.java)
-        intent.putExtra(EXTRA_TOPIC_ID, topic.id)
+        intent.putExtra("bundle", bundle)
         startActivity(intent)
     }
 
