@@ -6,10 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".topics.TopicsFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/listTopics"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/topicsSwipeContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/listTopics"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

@@ -3,6 +3,7 @@ package io.keepcoding.eh_ho.posts
 import android.content.Context
 import android.os.Bundle
 import android.view.*
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -10,13 +11,12 @@ import io.keepcoding.eh_ho.R
 import io.keepcoding.eh_ho.data.PostsRepo
 import io.keepcoding.eh_ho.data.Topic
 import io.keepcoding.eh_ho.inflate
-import io.keepcoding.eh_ho.posts.PostsAdapter
 import kotlinx.android.synthetic.main.fragment_posts.*
 
 
 const val ARG_TOPIC = "topic"
 
-class PostsFragment : Fragment() {
+class PostsFragment : Fragment()  {
 
 
     var topic: Topic? = null
@@ -60,6 +60,16 @@ class PostsFragment : Fragment() {
         listPosts.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         listPosts.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         listPosts.adapter = postsAdapter
+        context?.let {
+            postsSwipeContainer.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(it, R.color.colorPrimary))
+            postsSwipeContainer.setOnRefreshListener {
+                PostsRepo.posts.clear()
+                loadPosts()
+                postsAdapter.setPosts(PostsRepo.posts)
+                listPosts.adapter = postsAdapter
+                postsSwipeContainer.isRefreshing = false
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

@@ -5,11 +5,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".posts.PostsFragment"
     >
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/listPosts"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/postsSwipeContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
+        android:layout_height="match_parent">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/listPosts"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/buttonCreate"
