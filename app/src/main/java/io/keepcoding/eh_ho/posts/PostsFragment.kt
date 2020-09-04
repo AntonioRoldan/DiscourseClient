@@ -61,7 +61,7 @@ class PostsFragment : Fragment()  {
         listPosts.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         listPosts.adapter = postsAdapter
         context?.let {
-            postsSwipeContainer.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(it, R.color.colorPrimary))
+            postsSwipeContainer.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(it, R.color.white))
             postsSwipeContainer.setOnRefreshListener {
                 PostsRepo.posts.clear()
                 loadPosts()

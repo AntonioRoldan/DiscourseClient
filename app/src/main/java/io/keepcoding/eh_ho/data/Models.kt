@@ -106,7 +106,7 @@ data class Post(
     val id: String = UUID.randomUUID().toString(),
     val author: String= "",
     val content: String = "",
-    val date: Date = Date()
+    val date: String = ""
 ) {
     companion object {
         fun parsePostsList(response: JSONObject) : List<Post> {
@@ -124,13 +124,15 @@ data class Post(
             val date = jsonObject.getString("created_at")
                 .replace("Z", "+0000")
 
-            val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss:SSSZ", Locale.getDefault())
             val dateFormatted = dateFormat.parse(date) ?: Date()
+            val dateFormatString = SimpleDateFormat("yyyy-MM-dd")
+            val dateFormattedString = dateFormatString.format(dateFormatted)
             return Post(
                 id = jsonObject.getString("id"),
                 author = jsonObject.getString("username"),
                 content = Html.fromHtml(jsonObject.getString("cooked")).toString(),
-                date = dateFormatted
+                date = dateFormattedString
             )
         }
     }

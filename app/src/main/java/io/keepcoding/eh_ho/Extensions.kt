@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 fun AppCompatActivity.isFirsTimeCreated(savedInstanceState: Bundle?) : Boolean
      = savedInstanceState == null
