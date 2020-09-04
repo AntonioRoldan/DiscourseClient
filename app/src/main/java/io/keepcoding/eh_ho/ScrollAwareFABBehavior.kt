@@ -8,7 +8,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.ViewCompat
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class ScrollAwareFABBehavior(val context: Context, attrs: AttributeSet) : FloatingActionButton.Behavior() {
+class ScrollAwareFABBehavior(val context: Context, val attrs: AttributeSet) : FloatingActionButton.Behavior() {
 
     override fun onStartNestedScroll(
         coordinatorLayout: CoordinatorLayout,
@@ -50,10 +50,15 @@ class ScrollAwareFABBehavior(val context: Context, attrs: AttributeSet) : Floati
             type,
             consumed
         )
-        Log.d("Scroll position", "NEW Y: " + dyConsumed + " OLD Y: " + dyUnconsumed)
-        if(dyConsumed > 0 && child.visibility == View.VISIBLE) {
-            child.hide()
-        } else if (dyConsumed < 0 && child.visibility != View.VISIBLE) {
+        if(dyConsumed > 0 && child.visibility === View.VISIBLE) {
+            child.hide(object : FloatingActionButton.OnVisibilityChangedListener() {
+                override fun onHidden(fab: FloatingActionButton?) {
+                    super.onHidden(fab)
+                    fab?.visibility = View.INVISIBLE
+                }
+            }
+            )
+        } else if (dyConsumed < 0 && child.visibility !== View.VISIBLE) {
             child.show()
         }
     }
