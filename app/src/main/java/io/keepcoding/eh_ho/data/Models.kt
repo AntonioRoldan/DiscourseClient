@@ -124,7 +124,7 @@ data class Post(
             val date = jsonObject.getString("created_at")
                 .replace("Z", "+0000")
 
-            val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss:SSSZ", Locale.getDefault())
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault())
             val dateFormatted = dateFormat.parse(date) ?: Date()
             val dateFormatString = SimpleDateFormat("yyyy-MM-dd")
             val dateFormattedString = dateFormatString.format(dateFormatted)
